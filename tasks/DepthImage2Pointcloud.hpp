@@ -4,7 +4,7 @@
 #define IMAGE_PREPROCESSING_DEPTHIMAGE2POINTCLOUD_TASK_HPP
 
 #include "image_preprocessing/DepthImage2PointcloudBase.hpp"
-
+#include "frame_helper/FrameHelper.h"
 namespace image_preprocessing {
 
     /*! \class DepthImage2Pointcloud 
@@ -26,24 +26,29 @@ namespace image_preprocessing {
 	friend class DepthImage2PointcloudBase;
     protected:
         ::RTT::extras::ReadOnlyPointer< ::base::samples::frame::Frame > color_frame;
+        ::base::samples::DistanceImage frame;
+        ::base::samples::frame::Frame disparity_frame;
+        ::frame_helper::FrameHelper disp_helper;
+        int index;
+        int index2;
 
         virtual void color_frameCallback(const base::Time &ts, const ::RTT::extras::ReadOnlyPointer< ::base::samples::frame::Frame > &color_frame_sample);
 
-        virtual void frameCallback(const base::Time &ts, const ::RTT::extras::ReadOnlyPointer< ::base::samples::DistanceImage > &frame_sample);
+        virtual void frameCallback(const base::Time &ts, const ::base::samples::DistanceImage &frame_sample);
 
     public:
         /** TaskContext constructor for DepthImage2Pointcloud
          * \param name Name of the task. This name needs to be unique to make it identifiable via nameservices.
          * \param initial_state The initial TaskState of the TaskContext. Default is Stopped state.
          */
-        DepthImage2Pointcloud(std::string const& name = "image_preprocessing::DepthImage2Pointcloud");
+        DepthImage2Pointcloud(std::string const& name = "image_preprocessing::DepthImage2Pointcloud", TaskCore::TaskState initial_state = Stopped);
 
         /** TaskContext constructor for DepthImage2Pointcloud 
          * \param name Name of the task. This name needs to be unique to make it identifiable for nameservices. 
          * \param engine The RTT Execution engine to be used for this task, which serialises the execution of all commands, programs, state machines and incoming events for a task. 
          * 
          */
-        DepthImage2Pointcloud(std::string const& name, RTT::ExecutionEngine* engine);
+        DepthImage2Pointcloud(std::string const& name, RTT::ExecutionEngine* engine, TaskCore::TaskState initial_state = Stopped);
 
         /** Default deconstructor of DepthImage2Pointcloud
          */

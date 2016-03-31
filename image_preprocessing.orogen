@@ -4,7 +4,6 @@ version "0.1"
 using_library "base-types"
 using_library "opencv"
 import_types_from "base"
-using_task_library "transformer"
 
 using_library "frame_helper"
 import_types_from "frame_helper/Calibration.h"
@@ -35,21 +34,17 @@ task_context "DepthImage2Pointcloud" do
     input_port("color_frame", ro_ptr("/base/samples/frame/Frame")).
         doc("Color Frame for DepthImage if availible")
 
-    input_port "frame", ro_ptr("/base/samples/DistanceImage")
+    input_port "frame", "/base/samples/DistanceImage"
+    input_port "disparity_frame", "/base/samples/frame/Frame"
     output_port "pointcloud", "/base/samples/Pointcloud"
 
-    port_driven 
+    port_driven "frame"
 
-    stream_aligner do
-        max_latency 0.1
-        align_port "color_frame",0.3
-        align_port "frame",0.3
-    end
-
-    transformer do
-        transform "input", "pc"
-        max_latency 60
-    end
+#    stream_aligner do
+#        max_latency 1.0
+#        align_port "color_frame",0.4
+#        align_port "frame",0.4
+#    end
 end
 
 task_context "MonoTask" do
