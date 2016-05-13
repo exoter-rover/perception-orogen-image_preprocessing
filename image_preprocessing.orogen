@@ -34,6 +34,8 @@ task_context "DepthImage2Pointcloud" do
     input_port("color_frame", ro_ptr("/base/samples/frame/Frame")).
         doc("Color Frame for DepthImage if availible")
 
+    property("camera_id", "std::string", "PAN_STEREO").
+        doc("string to identify the cameras that this component is processing. Useful to distiguish when there are more than one stereocamera")
     input_port "frame", "/base/samples/DistanceImage"
     input_port "disparity_frame", "/base/samples/frame/Frame"
     output_port "pointcloud", "/base/samples/Pointcloud"

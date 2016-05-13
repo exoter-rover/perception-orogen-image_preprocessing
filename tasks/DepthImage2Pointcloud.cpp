@@ -77,7 +77,7 @@ void DepthImage2Pointcloud::updateHook()
     if (_frame.read(frame) == RTT::NewData)
     {
         char filename[240];
-        sprintf (filename, "/home/exoter/Desktop/Images/distance_frame_%d.txt",index++);
+        sprintf (filename, "/home/exoter/Desktop/Images/distance_frame_%s_%d.txt", _camera_id.get().c_str(), index++);
         //frameCallback(frame.time, frame);
         std::ofstream distance_frame;
         distance_frame.open(filename);
@@ -100,7 +100,7 @@ void DepthImage2Pointcloud::updateHook()
     }
     if (_disparity_frame.read(disparity_frame) == RTT::NewData){
         char filename2[240];
-        sprintf (filename2, "/home/exoter/Desktop/Images/disparity_frame_%d.jpg",index2++);
+        sprintf (filename2, "/home/exoter/Desktop/Images/disparity_frame_%s_%d.jpg", _camera_id.get().c_str(), index2++);
         disp_helper.saveFrame(filename2, disparity_frame);
     }
 
